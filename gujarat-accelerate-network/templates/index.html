@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gujarat Accelerate Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16123f;--paper:#f5f3fb;--pink:#ff3d81;--gold:#ffc531;--sky:#7be3f5;--mu:#5b5780;--sh:4px 4px 0 var(--ink)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 "Hanken Grotesk",system-ui,sans-serif}
+h1,h2,h3,.logo{font-family:"Bricolage Grotesque","Hanken Grotesk",system-ui,sans-serif;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.w{max-width:1120px;margin:0 auto;padding:0 18px}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+.logo{font-weight:800;font-size:20px;display:flex;align-items:center;gap:10px}
+.logo i{width:22px;height:22px;background:var(--pink);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);transform:rotate(12deg)}
+.btn{display:inline-block;padding:9px 16px;border:2px solid var(--ink);border-radius:10px;background:var(--gold);color:var(--ink);font:700 15px "Hanken Grotesk",system-ui,sans-serif;text-decoration:none;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.btn.wa{background:#3ddc84}.btn.plain{background:#fff}
+.hero{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;align-items:center;padding:28px 0 44px}
+h1{font-size:clamp(2.5rem,7.4vw,5.4rem);line-height:.96;letter-spacing:-.04em;font-weight:800;max-width:11ch}
+.hero p{font-size:19px;max-width:34ch;color:var(--mu);margin:18px 0 24px}
+.hero .acts{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:grid;gap:14px}
+.stat{border:2px solid var(--ink);border-radius:14px;padding:12px 18px;box-shadow:var(--sh);background:#fff;display:flex;align-items:baseline;gap:12px}
+.stat b{font:800 42px/1 "Bricolage Grotesque",system-ui,sans-serif}.stat span{color:var(--mu)}
+.stat:nth-child(1){background:var(--gold);transform:rotate(-1.5deg)}.stat:nth-child(2){background:var(--pink);transform:rotate(1deg)}
+.stat:nth-child(2) span{color:var(--ink)}.stat:nth-child(3){background:var(--sky);transform:rotate(-.5deg)}.stat:nth-child(3) span{color:var(--ink)}
+.bar{position:sticky;top:0;z-index:5;background:var(--paper);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:12px 0}
+.bar .w{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{padding:8px 14px;border:2px solid var(--ink);border-radius:99px;background:#fff;font:700 15px "Hanken Grotesk",system-ui,sans-serif;cursor:pointer;color:var(--ink)}
+.tab[aria-selected=true]{background:var(--ink);color:#fff}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+input,select{padding:8px 10px;border:2px solid var(--ink);border-radius:10px;background:#fff;color:var(--ink);font:inherit;font-size:15px;max-width:100%}
+main{padding:26px 0 60px}
+h2{font-size:26px;letter-spacing:-.02em;margin:6px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-bottom:30px}
+.card{border:2px solid var(--ink);border-radius:14px;background:#fff;box-shadow:var(--sh);padding:16px;display:flex;flex-direction:column;gap:8px;transition:transform .12s,box-shadow .12s}
+.card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.card h3{font-size:19px;line-height:1.2}.card p{margin:0;color:var(--mu);font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;padding:1px 9px;border:1.5px solid var(--ink);border-radius:99px}
+.tag{align-self:flex-start;font-weight:700;font-size:13px;padding:2px 10px;border:2px solid var(--ink);border-radius:8px}
+.k-sell{background:var(--gold)}.k-buy{background:var(--pink)}.k-job{background:var(--sky)}.k-event{background:var(--ink);color:#fff}
+.who{font-weight:700;font-size:14px}
+.match{font-size:14px;border-top:2px dashed var(--ink);padding-top:8px}.match b{display:block;margin-bottom:2px}
+.match a{color:var(--pink);font-weight:700}
+.acts2{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.empty{padding:36px 18px;border:2px dashed var(--ink);border-radius:14px;text-align:center;color:var(--mu)}
+footer{border-top:2px solid var(--ink);padding:22px 0 36px;color:var(--mu);font-size:14px}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.filters{margin-left:0;width:100%}.filters input{flex:1 1 100%}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="nav"><div class="logo"><i></i>Gujarat Accelerate</div><a class="btn plain" id="join" href="#" target="_blank" rel="noopener" hidden>Join the WhatsApp community</a></div>
+  <section class="hero">
+    <div>
+      <h1>Gujarat's growth companies, talking to each other.</h1>
+      <p>Find a supplier, a buyer or your next hire inside the network. One tap opens WhatsApp.</p>
+      <div class="acts"><a class="btn" href="#network" data-go="network">Browse the network</a><a class="btn plain" href="#buysell" data-go="buysell">See who is buying and selling</a></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="s1">0</b><span>companies in the network</span></div>
+      <div class="stat"><b id="s2">0</b><span>products and services listed</span></div>
+      <div class="stat"><b id="s3">0</b><span>open roles and job fairs</span></div>
+    </div>
+  </section>
+</div>
+<div class="bar"><div class="w">
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="network">Companies</button>
+    <button class="tab" role="tab" data-tab="buysell">Buy and sell</button>
+    <button class="tab" role="tab" data-tab="jobs">Jobs and job fairs</button>
+  </div>
+  <div class="filters">
+    <input id="q" type="search" placeholder="Search" aria-label="Search">
+    <select id="kind" aria-label="Type"><option value="">Buying and selling</option><option value="sell">We sell</option><option value="buy">Looking to buy</option></select>
+    <select id="rg" aria-label="Region"></select><select id="sc" aria-label="Sector"></select>
+  </div>
+</div></div>
+<main class="w" id="out"></main>
+<footer><div class="w">Run by the National Entrepreneurship Network for the Gujarat Accelerate portfolio. Want to add or change your listing? Message the NEN team on WhatsApp.</div></footer>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const REG=['North','South','East','West','Central'];
+const KL={sell:'We sell',buy:'Looking to buy',job:'Hiring',event:'Job fair'};
+let D={companies:[],posts:[]},tab='network';
+const rn=r=>r?r+' Gujarat':'';
+const tk=s=>String(s).toLowerCase().split(/[^a-z0-9]+/).filter(w=>w.length>3);
+const hit=(a,b)=>{const t=tk(a);return tk(b).some(w=>t.includes(w))};
+const go=(id,t)=>'/go/'+id+'?t='+encodeURIComponent(t);
+const chips=a=>'<div class="chips">'+a.filter(Boolean).map(x=>'<span class="chip">'+esc(x)+'</span>').join('')+'</div>';
+
+async function load(){
+  D=await fetch('/api/public').then(r=>r.json());
+  if(D.community){const j=$('#join');j.href=D.community;j.hidden=false}
+  $('#s1').textContent=D.companies.length;
+  $('#s2').textContent=D.posts.filter(p=>p.kind==='sell'||p.kind==='buy').length;
+  $('#s3').textContent=D.posts.filter(p=>p.kind==='job'||p.kind==='event').length;
+  const sec=[...new Set(D.companies.map(c=>c.sector).filter(Boolean))].sort();
+  $('#rg').innerHTML='<option value="">All regions</option>'+REG.map(r=>'<option value="'+r+'">'+rn(r)+'</option>').join('');
+  $('#sc').innerHTML='<option value="">All sectors</option>'+sec.map(s=>'<option>'+esc(s)+'</option>').join('');
+  render();
+}
+function pick(){const h=location.hash.slice(1);tab=['network','buysell','jobs'].includes(h)?h:'network'}
+function render(){
+  document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===tab));
+  $('#kind').style.display=tab==='buysell'?'':'none';
+  const q=$('#q').value.toLowerCase(),rg=$('#rg').value,sc=$('#sc').value,kd=$('#kind').value;
+  const ok=o=>(!rg||o.region===rg)&&(!sc||o.sector===sc)&&(!q||JSON.stringify(o).toLowerCase().includes(q));
+  const empty=m=>'<div class="empty">'+m+'</div>';
+  let h='';
+  if(tab==='network'){
+    const l=D.companies.filter(ok);
+    h='<h2>The network</h2>'+(l.length?'<div class="grid">'+l.map(c=>{
+      const mine=D.posts.filter(p=>p.company_id===c.id&&(p.kind==='sell'||p.kind==='job')).slice(0,3);
+      return '<div class="card"><h3>'+esc(c.name)+'</h3>'+chips([c.sector,c.city,rn(c.region)])+(c.about?'<p>'+esc(c.about)+'</p>':'')+
+      (mine.length?'<p>'+mine.map(p=>(p.kind==='job'?'Hiring: ':'Sells: ')+esc(p.title)).join('<br>')+'</p>':'')+
+      '<div class="acts2">'+(c.wa?'<a class="btn wa" target="_blank" rel="noopener" href="'+go(c.id,'Hi '+c.name+', I found you on the Gujarat Accelerate network and would like to connect.')+'">WhatsApp</a>':'')+
+      (c.website?'<a class="btn plain" target="_blank" rel="noopener" href="'+esc(/^https?:/.test(c.website)?c.website:'https://'+c.website)+'">Website</a>':'')+'</div></div>'}).join('')+'</div>':empty('No companies match these filters.'));
+  }
+  if(tab==='buysell'){
+    const l=D.posts.filter(p=>(p.kind==='sell'||p.kind==='buy')&&(!kd||p.kind===kd)&&ok(p));
+    h='<h2>Buy and sell inside the network</h2>'+(l.length?'<div class="grid">'+l.map(p=>{
+      const other=D.posts.filter(o=>o.company_id!==p.company_id&&o.kind===(p.kind==='buy'?'sell':'buy')&&hit(p.title,o.title)).slice(0,3);
+      const msg='Hi '+p.company+', I saw "'+p.title+'" on the Gujarat Accelerate network and would like to talk.';
+      return '<div class="card"><span class="tag k-'+p.kind+'">'+KL[p.kind]+'</span><h3>'+esc(p.title)+'</h3><div class="who">'+esc(p.company)+'</div>'+chips([p.city,rn(p.region)])+
+      (p.details?'<p>'+esc(p.details)+'</p>':'')+
+      (other.length?'<div class="match"><b>'+(p.kind==='buy'?'Possible sellers':'Possible buyers')+'</b>'+other.map(o=>esc(o.company)+(o.wa?' <a target="_blank" rel="noopener" href="'+go(o.company_id,'Hi '+o.company+', I am on the Gujarat Accelerate network. About "'+o.title+'": can we connect?')+'">Connect</a>':'')).join('<br>')+'</div>':'')+
+      '<div class="acts2">'+(p.wa?'<a class="btn wa" target="_blank" rel="noopener" href="'+go(p.company_id,msg)+'">WhatsApp</a>':'')+'</div></div>'}).join('')+'</div>':empty('Nothing listed here yet.'));
+  }
+  if(tab==='jobs'){
+    const ev=D.posts.filter(p=>p.kind==='event'&&(!q||JSON.stringify(p).toLowerCase().includes(q)));
+    const jb=D.posts.filter(p=>p.kind==='job'&&ok(p));
+    const card=p=>'<div class="card"><span class="tag k-'+p.kind+'">'+KL[p.kind]+'</span><h3>'+esc(p.title)+'</h3>'+(p.company?'<div class="who">'+esc(p.company)+'</div>':'')+chips([p.extra,p.city,rn(p.region)])+
+      (p.details?'<p>'+esc(p.details)+'</p>':'')+'<div class="acts2">'+(p.wa&&p.company_id?'<a class="btn wa" target="_blank" rel="noopener" href="'+go(p.company_id,'Hi '+p.company+', I am interested in "'+p.title+'" on the Gujarat Accelerate network.')+'">'+(p.kind==='job'?'Apply on WhatsApp':'WhatsApp')+'</a>':'')+'</div></div>';
+    h=(ev.length?'<h2>Upcoming job fairs</h2><div class="grid">'+ev.map(card).join('')+'</div>':'')+'<h2>Companies hiring</h2>'+(jb.length?'<div class="grid">'+jb.map(card).join('')+'</div>':empty('No open roles right now.'));
+  }
+  $('#out').innerHTML=h;
+}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{location.hash=b.dataset.tab});
+document.querySelectorAll('[data-go]').forEach(a=>a.onclick=()=>setTimeout(()=>$('.bar').scrollIntoView(),0));
+window.onhashchange=()=>{pick();render()};
+['q','rg','sc','kind'].forEach(id=>$('#'+id).oninput=render);
+pick();load();
+</script>
+</body>
+</html>
