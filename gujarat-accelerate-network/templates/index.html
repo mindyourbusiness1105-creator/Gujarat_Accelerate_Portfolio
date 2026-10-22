@@ -73,6 +73,15 @@ footer hr{border:0;border-top:1px solid #333;margin:28px 0}
 .fb a{margin-left:22px;text-decoration:none}.fb a:hover{color:#fff}
 @media(max-width:860px){.imp{grid-template-columns:repeat(2,1fr)}.imp div{border:0;padding:14px 6px}.filters{margin-left:0;width:100%}.filters input{flex:1 1 100%}}
 @media(max-width:560px){.stats{grid-template-columns:1fr}.stat{border-right:0;border-bottom:1px solid var(--line)}.fb a{margin:0 18px 0 0}}
+.pf{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:46px 0 40px;overflow:hidden}
+.pf h2{text-align:center;margin-bottom:6px}.pf .sub{text-align:center;color:var(--mu);margin:0 0 26px}
+.mq{overflow:hidden;margin-bottom:14px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.mt{display:flex;width:max-content;animation:mv var(--d,90s) linear infinite}
+.mq.rev .mt{animation-direction:reverse}
+.mq:hover .mt{animation-play-state:paused}
+.mt img{height:100px;width:auto;flex:none;margin-right:14px;border:1px solid var(--line);border-radius:4px;background:#fff}
+@keyframes mv{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.mt{animation:none}.mq{overflow-x:auto}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -88,6 +97,7 @@ footer hr{border:0;border-top:1px solid #333;margin:28px 0}
   <h2>About <em>NEN</em></h2>
   <p>National Entrepreneurship Network (NEN) is an independent, not-for-profit organization advancing entrepreneurship across India. Through entrepreneurship education, AI-enabled platforms, business acceleration and ecosystem partnerships, we empower aspiring entrepreneurs, startups, SMEs and institutions to build stronger businesses, create sustainable jobs and contribute to India’s economic growth.</p>
 </div></section>
+<section class="pf"><div class="w"><h2>Our <em>Portfolio</em></h2><p class="sub">Innovative startups. Stronger ecosystems. A sustainable future.</p></div><div id="pf"></div></section>
 <div class="stats">
   <div class="stat"><b id="s1">0</b><span>companies in the network</span></div>
   <div class="stat"><b id="s2">0</b><span>products and services listed</span></div>
@@ -125,6 +135,10 @@ footer hr{border:0;border-top:1px solid #333;margin:28px 0}
   <div class="fb"><span>© 2026 All rights reserved</span><span><a href="https://nen.org/terms-of-use" target="_blank" rel="noopener">Terms of Use</a><a href="https://nen.org/privacy-notice" target="_blank" rel="noopener">Privacy Notice</a></span></div>
 </div></footer>
 <script>
+const PF=["Agriown", "Airmed", "Alpino Health Foods", "Biofics", "Biziverse", "Culture X", "Enercomp Solutions", "EV India", "Exposit", "HoneyVeda", "Indiesemic", "Insyspay", "Jajal Medical", "Keepsake Automation", "MiCoB", "NG", "Nurasoi", "Nuutjob", "Prime UAV", "Qarmatek", "Company logo", "Reagri", "Rupiya.app", "Redicine", "Smart Node", "Imagine Powertree", "Tulsi Logistics", "Venu", "Company logo", "Wogom", "Zest 'n' Zing", "Zeus", "Reckon Diagnostics", "SB", "Shreenathji Steel", "Shubnam", "Sodhi Group", "Suman Exports", "Terra Equipment", "Topline", "Meta", "MTF", "Orbit", "P&B Tractor Spares", "Powerpace", "Preci-Max", "Precision Sintered Products", "GD Waldner", "Impel", "Jivat Medico Surgicals", "Kadiline Chemicals", "K&K Inc.", "Klintek", "Mech-Air", "Amsol", "ARGE", "Bionus Plastics", "CleanX Agro", "Dutt Ashok", "Story", "Evocative", "Galaxy Chains", "Strom", "Torch-it", "Univia", "Urban Maps", "Vastra", "Ideaclk"];
+(function(){const t=PF.map((n,i)=>'<img src="/static/portfolio/'+String(i+1).padStart(2,'0')+'.jpg" alt="'+n+'" loading="lazy">');
+const h=Math.ceil(t.length/2),row=(a,c)=>{const x=a.join('');return '<div class="mq'+c+'"><div class="mt" style="--d:'+Math.round(a.length*2.6)+'s">'+x+x+'</div></div>'};
+document.getElementById('pf').innerHTML=row(t.slice(0,h),'')+row(t.slice(h),' rev')})();
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const REG=['South Gujarat - Surat','North Gujarat','Vadodara','Ahmedabad','Rajkot'];
