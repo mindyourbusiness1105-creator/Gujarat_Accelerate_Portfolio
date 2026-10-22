@@ -29,6 +29,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;p
 <div class="card"><h2>Live posts</h2><table id="pt"></table></div>
 <div class="card"><h2>Notification log</h2><table id="lt"></table></div>
 <div class="card"><h2>Companies</h2><p class="mu">Delisting hides a company and its posts from the public site.</p><table id="ct"></table></div>
+<div class="card"><h2>Danger zone</h2><p class="mu">Permanently deletes all companies, posts and the notification log.</p><button class="d" id="rs">Delete all data</button><div class="msg" id="rm"></div></div>
 </div></div>
 <script>
 const $=s=>document.querySelector(s);
@@ -53,5 +54,6 @@ $('#up').onclick=async()=>{const f=$('#f').files[0];if(!f){$('#um').textContent=
 $('#pb').onclick=async()=>{const r=await post('/api/admin/post',{kind:$('#k').value,company_id:$('#c').value,title:$('#t').value,details:$('#d').value,extra:$('#e').value,notify:$('#n').checked});
   $('#pm').textContent=r.ok?'Published.'+($('#n').checked?' Notifications are going out in the background.':''):r.j.error;
   if(r.ok){['#t','#d','#e'].forEach(i=>$(i).value='');setTimeout(refresh,1500)}};
+$('#rs').onclick=async()=>{if(prompt('This deletes ALL companies and posts. Type DELETE to confirm.')!=='DELETE')return;const r=await post('/api/admin/reset',{confirm:'DELETE'});$('#rm').textContent=r.ok?'All data deleted.':r.j.error;if(r.ok)refresh()};
 $('#tb').onclick=async()=>{const r=await post('/api/admin/test',{phone:$('#tp').value});$('#tm').textContent=r.ok?r.j.status+': '+r.j.detail:r.j.error};
 </script></body></html>
