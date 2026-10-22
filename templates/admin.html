@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin · Gujarat Accelerate</title>
+<style>
+:root{--ink:#111;--paper:#f6f6f6;--pink:#B60202;--gold:#B60202;--mu:#5b5780}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
+.w{max-width:960px;margin:0 auto;padding:18px}h1{margin:0 0 4px}h2{margin:0 0 10px;font-size:18px}
+.card{background:#fff;border:1px solid #ddd;border-top:4px solid var(--pink);border-radius:4px;padding:16px;margin:16px 0}
+input,select,textarea,button{font:inherit;padding:8px 10px;border:2px solid var(--ink);border-radius:8px;background:#fff;color:var(--ink);max-width:100%}
+textarea{width:100%}button{background:var(--gold);color:#fff;border-color:var(--gold);font-weight:700;cursor:pointer}button.d{background:#fff;color:var(--ink);border-color:var(--ink)}
+label{display:block;font-size:13px;color:var(--mu);margin:8px 0 3px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:6px;border-bottom:1px solid #ddd}
+.msg{margin-top:8px;font-weight:700}.mu{color:var(--mu);font-size:13px}.warn{background:#fff3cd;border:2px solid var(--ink);border-radius:8px;padding:8px;margin-top:8px}
+</style></head><body><div class="w">
+<h1>Admin</h1><div class="mu"><a href="/">View public site</a></div>
+<div class="card" id="lg"><h2>Log in</h2><div class="row"><input id="pw" type="password" placeholder="Admin password"><button id="in">Log in</button></div><div class="msg" id="lm"></div></div>
+<div id="app" hidden>
+<div class="card"><h2>1. Upload company list</h2><p class="mu">Excel (.xlsx) with the Companies columns: name, sector, city, state, region, about, sells, buys, jobs, whatsapp, website, and a WhatsApp opt-in column (Y/N). Uploading again updates companies with the same name. New companies get their sells, buys and jobs listed. No WhatsApp messages are sent on upload.</p>
+<div class="row"><input type="file" id="f" accept=".xlsx"><button id="up">Upload</button></div><div class="msg" id="um"></div></div>
+<div class="card"><h2>2. Post something new</h2>
+<div class="row"><div><label>Type</label><select id="k"><option value="sell">We sell</option><option value="buy">Looking to buy</option><option value="job">Hiring</option><option value="event">Job fair</option></select></div>
+<div><label>Company (leave empty for NEN events)</label><select id="c"></select></div></div>
+<label>Title</label><input id="t" style="width:100%" maxlength="150" placeholder="e.g. CNC operator, 3 openings">
+<label>Details</label><textarea id="d" rows="2" maxlength="600"></textarea>
+<label>Extra (location, qualification or date)</label><input id="e" style="width:100%" maxlength="120" placeholder="e.g. Rajkot, ITI">
+<label><input type="checkbox" id="n" checked> Send a WhatsApp notification to all opted-in companies</label>
+<div class="row" style="margin-top:8px"><button id="pb">Publish</button></div><div class="msg" id="pm"></div><div class="warn" id="wm" hidden></div></div>
+<div class="card"><h2>Test WhatsApp</h2><div class="row"><input id="tp" placeholder="Your own number"><button id="tb">Send test</button></div><div class="msg" id="tm"></div></div>
+<div class="card"><h2>Live posts</h2><table id="pt"></table></div>
+<div class="card"><h2>Notification log</h2><table id="lt"></table></div>
+<div class="card"><h2>Companies</h2><p class="mu">Delisting hides a company and its posts from the public site.</p><table id="ct"></table></div>
+<div class="card"><h2>Danger zone</h2><p class="mu">Permanently deletes all companies, posts and the notification log.</p><button class="d" id="rs">Delete all data</button><div class="msg" id="rm"></div></div>
+</div></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const post=(u,b)=>fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b||{})}).then(async r=>({ok:r.ok,j:await r.json()}));
+$('#in').onclick=async()=>{const r=await post('/api/login',{password:$('#pw').value});if(r.ok){$('#lg').hidden=true;$('#app').hidden=false;refresh()}else $('#lm').textContent=r.j.error};
+$('#pw').onkeydown=e=>{if(e.key==='Enter')$('#in').click()};
+async function refresh(){
+  const r=await fetch('/api/admin/state');if(r.status===401){location.reload();return}
+  const s=await r.json();
+  $('#c').innerHTML='<option value="">None (NEN event)</option>'+s.companies.map(c=>'<option value="'+c.id+'">'+esc(c.name)+'</option>').join('');
+  const w=$('#wm');w.hidden=s.whatsapp_live;w.textContent='Dry run: WhatsApp credentials are not set, so notifications are logged but nothing is sent.';
+  $('#pt').innerHTML='<tr><th>Type</th><th>Title</th><th>Company</th><th></th></tr>'+s.posts.map(p=>'<tr><td>'+esc(p.kind)+'</td><td>'+esc(p.title)+'</td><td>'+esc(p.company)+'</td><td><button class="d" data-p="'+p.id+'">Remove</button></td></tr>').join('');
+  $('#lt').innerHTML='<tr><th>Post</th><th>Status</th><th>Count</th></tr>'+s.log.map(l=>'<tr><td>'+esc(l.title)+'</td><td>'+esc(l.status)+'</td><td>'+l.n+'</td></tr>').join('');
+  $('#ct').innerHTML='<tr><th>Name</th><th>Region</th><th>WhatsApp opt-in</th><th>Listed</th><th></th></tr>'+s.companies.map(c=>'<tr><td>'+esc(c.name)+'</td><td>'+esc(c.region)+'</td><td>'+(c.optin?'Yes':'No')+'</td><td>'+(c.active?'Yes':'No')+'</td><td><button class="d" data-c="'+c.id+'">'+(c.active?'Delist':'List again')+'</button></td></tr>').join('');
+  document.querySelectorAll('[data-p]').forEach(b=>b.onclick=async()=>{await post('/api/admin/post/'+b.dataset.p+'/delete');refresh()});
+  document.querySelectorAll('[data-c]').forEach(b=>b.onclick=async()=>{await post('/api/admin/company/'+b.dataset.c+'/toggle');refresh()});
+}
+$('#up').onclick=async()=>{const f=$('#f').files[0];if(!f){$('#um').textContent='Choose an Excel file first.';return}
+  const fd=new FormData();fd.append('file',f);const r=await fetch('/api/admin/import',{method:'POST',body:fd});const j=await r.json();
+  $('#um').textContent=r.ok?'Added '+j.added+', updated '+j.updated+', skipped '+j.skipped+'.':j.error;if(r.ok)refresh()};
+$('#pb').onclick=async()=>{const r=await post('/api/admin/post',{kind:$('#k').value,company_id:$('#c').value,title:$('#t').value,details:$('#d').value,extra:$('#e').value,notify:$('#n').checked});
+  $('#pm').textContent=r.ok?'Published.'+($('#n').checked?' Notifications are going out in the background.':''):r.j.error;
+  if(r.ok){['#t','#d','#e'].forEach(i=>$(i).value='');setTimeout(refresh,1500)}};
+$('#rs').onclick=async()=>{if(prompt('This deletes ALL companies and posts. Type DELETE to confirm.')!=='DELETE')return;const r=await post('/api/admin/reset',{confirm:'DELETE'});$('#rm').textContent=r.ok?'All data deleted.':r.j.error;if(r.ok)refresh()};
+$('#tb').onclick=async()=>{const r=await post('/api/admin/test',{phone:$('#tp').value});$('#tm').textContent=r.ok?r.j.status+': '+r.j.detail:r.j.error};
+</script></body></html>
