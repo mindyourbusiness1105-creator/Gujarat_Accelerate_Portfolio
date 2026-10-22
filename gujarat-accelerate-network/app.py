@@ -29,7 +29,13 @@ COMMUNITY_LINK = os.getenv("COMMUNITY_LINK", "")
 WA_TOKEN, WA_PHONE_ID = os.getenv("WA_TOKEN"), os.getenv("WA_PHONE_ID")
 WA_TEMPLATE, WA_LANG = os.getenv("WA_TEMPLATE", "network_update"), os.getenv("WA_LANG", "en")
 DB = os.getenv("DATABASE_PATH", os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.db"))
-REGIONS = ["North", "South", "East", "West", "Central"]
+REGIONS = {
+    "South Gujarat - Surat": ("south", "surat"),
+    "North Gujarat": ("north",),
+    "Vadodara": ("vadodara", "baroda"),
+    "Ahmedabad": ("ahmedabad",),
+    "Rajkot": ("rajkot",),
+}
 KINDS = {"sell": "We sell", "buy": "Looking to buy", "job": "Hiring", "event": "Job fair"}
 TAB = {"sell": "buysell", "buy": "buysell", "job": "jobs", "event": "jobs"}
 
@@ -180,7 +186,8 @@ def import_xlsx():
         if not name or name.lower().startswith("example"):
             skipped += 1
             continue
-        region = next((x for x in REGIONS if cell(r, h, "region").lower().startswith(x.lower())), "")
+        rv = cell(r, h, "region").lower()
+        region = next((k for k, keys in REGIONS.items() if any(w in rv for w in keys)), "")
         optin = 1 if opt_i is not None and str(r[opt_i] or "").strip().lower() in ("y", "yes", "1", "true") else 0
         vals = (cell(r, h, "sector"), cell(r, h, "city"), region, cell(r, h, "state") or "Gujarat", cell(r, h, "about"),
                 norm(cell(r, h, "whatsapp")), cell(r, h, "website"), optin)
