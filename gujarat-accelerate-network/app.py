@@ -208,6 +208,17 @@ def toggle_company(cid):
     return jsonify(ok=True)
 
 
+@app.post("/api/admin/reset")
+@admin_only
+def reset_all():
+    if (request.get_json(silent=True) or {}).get("confirm") != "DELETE":
+        return jsonify(error="Confirmation missing."), 400
+    d = db()
+    d.executescript("delete from notif; delete from posts; delete from companies;")
+    d.commit()
+    return jsonify(ok=True)
+
+
 @app.post("/api/admin/post")
 @admin_only
 def add_post():
