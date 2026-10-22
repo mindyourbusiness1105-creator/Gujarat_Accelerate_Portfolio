@@ -127,10 +127,10 @@ footer hr{border:0;border-top:1px solid #333;margin:28px 0}
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const REG=['North','South','East','West','Central'];
+const REG=['South Gujarat - Surat','North Gujarat','Vadodara','Ahmedabad','Rajkot'];
 const KL={sell:'We sell',buy:'Looking to buy',job:'Hiring',event:'Job fair'};
 let D={companies:[],posts:[]},tab='network';
-const rn=r=>r?r+' Gujarat':'';
+const rn=r=>r||'';
 const tk=s=>String(s).toLowerCase().split(/[^a-z0-9]+/).filter(w=>w.length>3);
 const hit=(a,b)=>{const t=tk(a);return tk(b).some(w=>t.includes(w))};
 const go=(id,t)=>'/go/'+id+'?t='+encodeURIComponent(t);
